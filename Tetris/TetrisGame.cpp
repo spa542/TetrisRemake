@@ -34,17 +34,17 @@ TetrisGame::~TetrisGame() {
 void TetrisGame::printBoard() {
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 40; j++) {
-            std::cout << board[i][j];     
+            printw("%c", board[i][j]);     
         }
-        std::cout << std::endl; 
+        printw("\n");
     }
 }
 
 void TetrisGame::generatePiece() {
     int randomPiece = rand() % 7;
     int randomStartSpot = 3 + rand() % 33;
-    std::cout << "RandomPiece Number generated was " << randomPiece << std::endl;
-    std::cout << "RandomStartSpot Number generated was " << randomStartSpot << std::endl;
+    //std::cout << "RandomPiece Number generated was " << randomPiece << std::endl;
+    //std::cout << "RandomStartSpot Number generated was " << randomStartSpot << std::endl;
 
     if (randomPiece == VertLine) {
         for (int i = 0; i < 3; i++) {
@@ -191,6 +191,109 @@ void TetrisGame::fall() {
     if (currentPiece == ZigZagRev) {
         board[row][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = ' ';
         board[row + 2][column + 1] = board[row + 2][column] = board[row + 3][column + 2] = '*';
+        return;
+    }
+}
+
+void TetrisGame::moveLeft() {
+    int row, column;
+    try {
+        row = findRow();
+        column = findColumn(row);
+    } catch(const char* e) {
+        std::cout << e << std::endl;
+    }
+
+    if (currentPiece == VertLine) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
+        return;
+    }
+
+    if (currentPiece == HoriLine) {
+        board[row][column + 2] = ' ';
+        board[row][column - 1] = '*';
+        return;
+    }
+
+    if (currentPiece == Box) {
+        board[row][column + 1] = board[row + 1][column + 1] = ' ';
+        board[row][column - 1] = board[row + 1][column - 1] = '*';
+        return;
+    }
+    
+    if (currentPiece == LShape) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
+        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
+        return;
+    }
+
+    if (currentPiece == LShapeRev) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 3] = '*';
+        return;
+    }
+    
+    if (currentPiece == ZigZag) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
+        board[row][column - 1] = board[row + 1][column - 3] = board[row + 2][column - 3] = '*';
+        return;
+    }
+
+    if (currentPiece == ZigZagRev) {
+        board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column + 1] = '*';
+    }
+}
+
+void TetrisGame::moveRight() {
+    int row, column;
+    try {
+        row = findRow();
+        column = findColumn(row);
+    } catch(const char* e) {
+        std::cout << e << std::endl;
+    }
+
+    if (currentPiece == VertLine) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+        return;
+    }
+
+    if (currentPiece == HoriLine) {
+        board[row][column] = ' ';
+        board[row][column + 3] = '*';
+        return;
+    }
+
+    if (currentPiece == Box) {
+        board[row][column] = board[row + 1][column] = ' ';
+        board[row][column + 2] = board[row + 1][column + 2] = '*';
+        return;
+    }
+    
+    if (currentPiece == LShape) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 3] = '*';
+        return;
+    }
+
+    if (currentPiece == LShapeRev) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
+        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+        return;
+    }
+    
+    if (currentPiece == ZigZag) {
+        board[row][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
+        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column - 1] = '*';
+        return;
+    }
+
+    if (currentPiece == ZigZagRev) {
+        board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
+        board[row][column + 1] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
         return;
     }
 }

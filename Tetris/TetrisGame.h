@@ -1,9 +1,10 @@
 #ifndef _TETRIS_H_
 #define _TETRIS_H_
-#include<iostream>
-#include<string>
-#include<time.h>
-#include<cstdlib>
+#include<iostream> // Used for error logging
+#include<string> // Used for binding char array
+#include<time.h> // Used for timing in tetris
+#include<cstdlib> // Used for cstd lib functions
+#include<ncurses.h> // Used for printing the board to the screen
 
 enum Pieces { VertLine, HoriLine, Box, LShape, LShapeRev, ZigZag, ZigZagRev };
 
@@ -21,6 +22,8 @@ class TetrisGame {
         void printBoard();
         void generatePiece();
         void fall(); 
+        void moveLeft();
+        void moveRight();
 };
 
 #endif
