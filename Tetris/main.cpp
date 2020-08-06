@@ -9,20 +9,5 @@ int main() {
 
     TetrisGame game;
 
-    game.printBoard();
-
-    game.generatePiece();
-
-    game.printBoard();
-
-    std::cout << "Time for the fall..." << std::endl;
-
-    game.fall();
-    game.fall();
-    game.fall();
-    game.fall();
-
-    game.printBoard();
-
     return 0;
 }

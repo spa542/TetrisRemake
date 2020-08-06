@@ -166,7 +166,7 @@ void TetrisGame::fall() {
 
     if (currentPiece == Box) {
         board[row][column] = board[row][column + 1] = ' ';
-        board[row + 2][column] = board[row + 2][column + 1] = ' ';
+        board[row + 2][column] = board[row + 2][column + 1] = '*';
         return;
     }
     
