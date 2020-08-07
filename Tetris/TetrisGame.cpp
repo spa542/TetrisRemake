@@ -205,42 +205,68 @@ void TetrisGame::moveLeft() {
     }
 
     if (currentPiece == VertLine) {
+        if (board[row][column - 1] == '*' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '*' ||
+                board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '*' || board[row + 2][column - 1] == '|') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
         board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
         return;
     }
 
     if (currentPiece == HoriLine) {
+        if (board[row][column - 1] == '|' || board[row][column - 1] == '*') {
+            return;
+        }
         board[row][column + 2] = ' ';
         board[row][column - 1] = '*';
         return;
     }
 
     if (currentPiece == Box) {
+        if (board[row][column - 1] == '|' || board[row][column - 1] == '*' || board[row + 1][column - 1] == '|' ||
+                board[row + 1][column - 1] == '*') {
+            return;
+        }
         board[row][column + 1] = board[row + 1][column + 1] = ' ';
         board[row][column - 1] = board[row + 1][column - 1] = '*';
         return;
     }
     
     if (currentPiece == LShape) {
+        if (board[row][column - 1] == '*' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '*' ||
+                board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '*' || board[row + 2][column - 1] == '|') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
         board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
         return;
     }
 
     if (currentPiece == LShapeRev) {
+        if (board[row + 2][column - 3] == '|' || board[row + 2][column - 3] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
         board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 3] = '*';
         return;
     }
     
     if (currentPiece == ZigZag) {
+        if (board[row][column - 1] == '|' || board[row][column - 1] == '*' || board[row + 1][column - 3] == '|' || board[row + 1][column - 3] == '*'
+                || board[row + 2][column - 3] == '|' || board[row + 2][column - 3] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
         board[row][column - 1] = board[row + 1][column - 3] = board[row + 2][column - 3] = '*';
         return;
     }
 
     if (currentPiece == ZigZagRev) {
+        if (board[row][column - 1] == '|' || board[row][column - 1] == '*' || board[row + 1][column - 1] == '|' || board[row + 1][column - 1] == '*'
+                || board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
         board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column + 1] = '*';
     }
@@ -256,42 +282,68 @@ void TetrisGame::moveRight() {
     }
 
     if (currentPiece == VertLine) {
+        if (board[row][column + 1] == '|' || board[row][column + 1] == '*' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '*'
+                || board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
         board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
         return;
     }
 
     if (currentPiece == HoriLine) {
+        if (board[row][column + 3] == '|' || board[row][column + 3] == '*') {
+            return;
+        }
         board[row][column] = ' ';
         board[row][column + 3] = '*';
         return;
     }
 
     if (currentPiece == Box) {
+        if (board[row][column + 2] == '|' || board[row][column + 2] == '*' || board[row + 1][column + 2] == '|' || board[row + 1][column + 2] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = ' ';
         board[row][column + 2] = board[row + 1][column + 2] = '*';
         return;
     }
     
     if (currentPiece == LShape) {
+        if (board[row][column + 1] == '|' || board[row][column + 1] == '*' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '*' ||
+                board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
         board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 3] = '*';
         return;
     }
 
     if (currentPiece == LShapeRev) {
+        if (board[row][column + 1] == '|' || board[row][column + 1] == '*' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '*' ||
+                board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
         board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
         return;
     }
     
     if (currentPiece == ZigZag) {
+        if (board[row][column + 1] == '|' || board[row][column + 1] == '*' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '*' ||
+                board[row + 2][column - 1] == '|' || board[row + 2][column - 1] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
         board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column - 1] = '*';
         return;
     }
 
     if (currentPiece == ZigZagRev) {
+        if (board[row][column + 1] == '|' || board[row][column + 1] == '*' || board[row + 1][column + 3] == '|' || board[row + 1][column + 3] == '*' ||
+                board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '*') {
+            return;
+        }
         board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
         board[row][column + 1] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
         return;
