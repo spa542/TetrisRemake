@@ -475,7 +475,10 @@ void TetrisGame::clearRows(std::vector<int> rowsToDel) {
         for (int j = 1; j < 39; j++) {
             board[*i][j] = ' ';
         }
+        for (int above = --(*i), curr = *i; above >= 0; above--, curr--) {
+            for (int col = 1; col < 39; col++) {
+                board[curr][col] = board[above][col];
+            }
+        }
     }
-
-    // Still need to reformat the array to make up for lost row
 }
