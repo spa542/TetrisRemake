@@ -4,7 +4,7 @@
 #include<ncurses.h> // Game window library
 #include"./TimerLibrary/timercpp.h" // External timer library
 
-#define WAIT_TIME 2.0 // Wait time for game loop
+#define WAIT_TIME 5000 // Wait time for game loop (milliseconds)
 
 int main() {
     srand(time(NULL));
@@ -19,9 +19,7 @@ int main() {
     game.generatePiece();
     while(true) {
         game.printBoard();
-
-        ch = getch();
-
+/*
         // Set the time interval that will run in the main game loop
         t.setTimeout([&]() {
             game.fall();
@@ -34,7 +32,9 @@ int main() {
                 game.generatePiece();
             }
             t.stop();
-        }, 5000);
+        }, WAIT_TIME);
+*/
+        ch = getch();
 
         switch(ch) {
             case 's':
@@ -75,6 +75,12 @@ int main() {
                 break;
             case 'e': 
                 printw("Pressed the e key, exiting the loop\n");
+                break;
+            case 'z':
+                game.rotateLeft();
+                break;
+            case 'x':
+                game.rotateRight();
                 break;
         }
         if ( ch == 'e' ) {

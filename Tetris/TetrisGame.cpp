@@ -2,6 +2,7 @@
 
 TetrisGame::TetrisGame() {
     currentPiece = -1; // No current piece when game board is created
+    isRotatedLeft = isRotatedRight = isUpsideDown = false; // Starts in normal position
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 40; j++) {
            if (j == 0 || j == 39) {
@@ -43,6 +44,7 @@ void TetrisGame::printBoard() {
 void TetrisGame::generatePiece() {
     int randomPiece = rand() % 7;
     int randomStartSpot = 3 + rand() % 33;
+    isRotatedLeft = isRotatedRight = isUpsideDown = false; // Starts in normal position
     //std::cout << "RandomPiece Number generated was " << randomPiece << std::endl;
     //std::cout << "RandomStartSpot Number generated was " << randomStartSpot << std::endl;
 
@@ -373,6 +375,270 @@ void TetrisGame::moveRight() {
         board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
         board[row][column + 1] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
         return;
+    }
+}
+
+void TetrisGame::rotateLeft() {
+    int row, column;
+    try {
+        row = findRow();
+        column = findColumn(row);
+    } catch(const char* e) {
+        std::cout << e << std::endl;
+    }
+
+    if (currentPiece == VertLine) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row + 2][column] = ' ';
+            board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
+            isRotatedLeft = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row][column + 2] = ' ';
+            board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+
+    if (currentPiece == HoriLine) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row][column + 2] = ' ';
+            board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
+            isRotatedLeft = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row + 2][column] = ' ';
+            board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+
+    if (currentPiece == Box) {
+        return;
+    }
+    
+    if (currentPiece == LShape) {
+        if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row][column + 1] = board[row][column + 2] = '*';
+            isRotatedLeft = true;
+            return;
+        }
+        if (isRotatedRight) {
+            board[row][column] = board[row + 1][column] = ' ';
+            board[row][column - 2] = board[row + 1][column - 2] = '*';
+            isRotatedRight = false;
+            return;
+        }
+        if (isRotatedLeft) {
+            board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row + 1][column + 2] = board[row + 2][column + 2] = '*';
+            isUpsideDown = true;
+            isRotatedLeft = false;
+            return;
+        }
+        if (isUpsideDown) {
+            board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row + 1][column] = board[row + 2][column] = '*';
+            isUpsideDown = false;
+            isRotatedLeft = true;
+            return;
+        }
+    }
+
+    if (currentPiece == LShapeRev) {
+        if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            board[row][column] = board[row + 1][column] = ' ';
+            board[row][column - 2] = board[row + 1][column - 2] = '*';
+            isRotatedLeft = true;
+            return;
+        }
+        if (isRotatedLeft) {
+            board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row][column + 1] = board[row][column + 2] = '*';
+            isUpsideDown = true;
+            isRotatedLeft = false;
+            return;
+        }
+        if (isRotatedRight) {
+            board[row][column] = board[row][column + 1] = ' ';
+            board[row + 2][column] = board[row + 2][column + 1] = '*';
+            isRotatedRight = false;
+            return;
+        }
+        if (isUpsideDown) {
+            board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 2][column + 1] = board[row + 2][column + 2] = '*';
+            isUpsideDown = false;
+            isRotatedLeft = true;
+            return;
+        }
+    }
+    
+    if (currentPiece == ZigZag) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row + 1][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
+            board[row + 2][column] = board[row + 2][column - 1] = board[row][column - 1] = board[row][column - 2] = '*';
+            isRotatedLeft = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row][column + 1] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row][column + 2] = board[row + 1][column + 2] = board[row + 1][column] = board[row + 2][column] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+
+    if (currentPiece == ZigZagRev) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row + 1][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column + 1] = board[row][column + 2] = board[row + 2][column] = board[row + 2][column + 1] = '*';
+            isRotatedLeft = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row][column + 1] = board[row + 2][column] = board[row + 2][column - 1] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+}
+
+void TetrisGame::rotateRight() {
+    int row, column;
+    try {
+        row = findRow();
+        column = findColumn(row);
+    } catch(const char* e) {
+        std::cout << e << std::endl;
+    }
+
+    if (currentPiece == VertLine) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row + 2][column] = ' ';
+            board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
+            isRotatedRight = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row][column + 2] = ' ';
+            board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+
+    if (currentPiece == HoriLine) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row][column + 2] = ' ';
+            board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
+            isRotatedRight = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row + 2][column] = ' ';
+            board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+
+    if (currentPiece == Box) {
+        return;
+    }
+    
+    if (currentPiece == LShape) {
+        if (!isRotatedRight && !isRotatedLeft && !isUpsideDown) {
+            board[row][column] = board[row + 1][column] = ' ';
+            board[row][column + 2] = board[row + 1][column + 2] = '*';
+            isRotatedRight = true;
+            return;
+        }
+        if (isRotatedRight) {
+            board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
+            board[row][column - 1] = board[row][column - 2] = '*';
+            isRotatedRight = false;
+            isUpsideDown = true;
+            return;
+        }
+        if (isRotatedLeft) {
+            board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 2][column + 1] = board[row + 2][column + 2] = '*';
+            isRotatedLeft = false;
+            return;
+        }
+        if (isUpsideDown) {
+            board[row][column] = board[row][column + 1] = ' ';
+            board[row + 2][column] = board[row + 2][column + 1] = '*';
+            isUpsideDown = false;
+            isRotatedRight = true;
+            return;
+        }
+    }
+
+    if (currentPiece == LShapeRev) {
+        if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
+            board[row][column - 1] = board[row][column - 2] = '*';
+            isRotatedRight = true;
+            return;
+        }
+        if (isRotatedRight) {
+            board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row + 1][column] = board[row + 2][column] = '*';
+            isUpsideDown = true;
+            isRotatedRight = false;
+            return;
+        }
+        if (isRotatedLeft) {
+            board[row][column] = board[row + 1][column] = ' ';
+            board[row][column + 2] = board[row + 1][column + 2] = '*';
+            isRotatedLeft = false;
+            return;
+        }
+        if (isUpsideDown) {
+            board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row + 1][column + 2] = board[row + 2][column + 2] = '*';
+            isUpsideDown = false;
+            isRotatedRight = true;
+            return;
+        }
+    }
+    
+    if (currentPiece == ZigZag) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row + 1][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
+            board[row + 2][column] = board[row + 2][column - 1] = board[row][column - 1] = board[row][column - 2] = '*';
+            isRotatedRight = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row][column + 1] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row][column + 2] = board[row + 1][column + 2] = board[row + 1][column] = board[row + 2][column] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
+    }
+
+    if (currentPiece == ZigZagRev) {
+        if (!isRotatedLeft && !isRotatedRight) {
+            board[row][column] = board[row + 1][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column + 1] = board[row][column + 2] = board[row + 2][column] = board[row + 2][column + 1] = '*';
+            isRotatedRight = true;
+            return;
+        }
+        if (isRotatedLeft || isRotatedRight) {
+            board[row][column] = board[row][column + 1] = board[row + 2][column] = board[row + 2][column - 1] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            isRotatedLeft = isRotatedRight = false;
+            return;
+        }
     }
 }
 

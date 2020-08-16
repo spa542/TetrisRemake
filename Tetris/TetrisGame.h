@@ -17,8 +17,10 @@ struct RowData {
 class TetrisGame {
     private:
         char board[40][40]; // Board
-        int currentPiece; // Holds the integer value (enum val) for what piece is currently 
-                            // being moved
+        int currentPiece; // Holds the integer value (enum val) for what piece is currently being moved
+        bool isRotatedLeft; // To know if the shape is rotated left
+        bool isRotatedRight; // To know if the shape is rotated right
+        bool isUpsideDown; // To know if the shape is upside down
 
         int findRow(); // Finds the star of the current moving block
         int findColumn(int); // Uses the row to find the column of the first block
@@ -31,6 +33,8 @@ class TetrisGame {
         void fall(); // Facilitates the handling of the down command
         void moveLeft(); // Facilitates the handling of the left command
         void moveRight(); // Facilitates the handling of the right command
+        void rotateLeft(); // Rotates the piece to the left
+        void rotateRight(); // Rotates the piece to the right
         bool isPieceSet(); // Checks to see if the piece has hit the "bottom"
         void convertSetPieces(); // Converts set pieces into # signs
         RowData fullRows(); // Checks to see if the row is full or not
