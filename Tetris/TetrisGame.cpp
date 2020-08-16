@@ -155,71 +155,198 @@ void TetrisGame::fall() {
     }
 
     if (currentPiece == VertLine) {
-        if (board[row + 3][column] == '=' || board[row + 3][column] == '#') {
+        // If rotated, will be a horizontal line (movement)
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 1][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = '*';
+            return;
+        } else {
+            // Default shape collision detected
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#') {
+                return;
+            }
+            // Default shape movement
+            board[row][column] = ' ';
+            board[row + 3][column] = '*';
             return;
         }
-        board[row][column] = ' ';
-        board[row + 3][column] = '*';
-        return;
     }
 
     if (currentPiece == HoriLine) {
-        if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#' ||
-                board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+        // If rotated, will be a vertical line (movement)
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#') {
+                return;
+            }
+            board[row][column] = ' ';
+            board[row + 3][column] = '*';
+            return;
+        } else {
+            // Default shape collision detection
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#' ||
+                    board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return;
+            }
+            // Default shape movement
+            board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 1][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = '*';
             return;
         }
-        board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
-        board[row + 1][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = '*';
-        return;
     }
 
     if (currentPiece == Box) {
         if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column + 1] == '=' || board[row + 2][column + 1] == '#') {
             return;
         }
+        /* Will never have rotation logic since the shape will always be the same */
         board[row][column] = board[row][column + 1] = ' ';
         board[row + 2][column] = board[row + 2][column + 1] = '*';
         return;
     }
     
     if (currentPiece == LShape) {
-        if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#' ||
-                board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+        // Right rotation movement
+        if (isRotatedRight) {
+            // Right rotation collision
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#'
+                    || board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
+            board[row + 3][column] = board[row + 3][column - 1] = board[row + 3][column - 2] = '*';
             return;
         }
-        board[row][column] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
-        board[row + 3][column] = board[row + 3][column + 1] = board[row + 3][column + 2] = '*';
-        return;
+        // Left rotation movement
+        else if (isRotatedLeft) {
+            // Left rotation collision
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 3][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = '*';
+            return;
+        }
+        // Upside down rotation movement
+        else if (isUpsideDown) {
+            // Upside down collision
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 1][column] = board[row + 1][column + 1] = board[row + 3][column + 2] = '*';
+            return;
+        } else {
+            // Default collsion
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#' ||
+                    board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return;
+            }
+            // Default shape movement 
+            board[row][column] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row + 3][column] = board[row + 3][column + 1] = board[row + 3][column + 2] = '*';
+            return;
+        }
     }
 
     if (currentPiece == LShapeRev) {
-        if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#' ||
-                board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+        // Right rotation movement
+        if (isRotatedRight) {
+            // Right rotation collision
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 1][column] = board[row + 1][column + 1] = board[row + 3][column + 2] = '*';
             return;
         }
-        board[row][column] = board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
-        board[row + 3][column] = board[row + 3][column - 1] = board[row + 3][column - 2] = '*';
-        return;
+        // Left rotation movement
+        else if (isRotatedLeft) {
+            // Left rotation collision
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#' ||
+                    board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row + 3][column] = board[row + 3][column + 1] = board[row + 3][column + 2] = '*';
+            return;
+        }
+        // Upside down rotation movement
+        else if (isUpsideDown) {
+            // Upside down collision
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row][column + 2] = ' ';
+            board[row + 3][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#' ||
+                    board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
+            board[row + 3][column] = board[row + 3][column - 1] = board[row + 3][column - 2] = '*';
+            return;
+        }
     }
     
     if (currentPiece == ZigZag) {
-        if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column - 1] == '=' || board[row + 2][column - 1] == '#' ||
-                board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+        // Will be the same shape on either rotation, rotational movement
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#'
+                    || board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row + 1][column] = board[row + 3][column + 1] = board[row + 3][column + 2] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column - 1] == '=' || board[row + 2][column - 1] == '#' ||
+                    board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column - 1] = board[row + 1][column - 2] = ' ';
+            board[row + 2][column - 1] = board[row + 2][column] = board[row + 3][column - 2] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column - 1] = board[row + 1][column - 2] = ' ';
-        board[row + 2][column - 1] = board[row + 2][column] = board[row + 3][column - 2] = '*';
-        return;
     }
 
     if (currentPiece == ZigZagRev) {
-        if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column + 1] == '=' || board[row + 2][column + 1] == '#' ||
-                board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+        // Will be the same shape on either rotation, rotational movement
+        if (isRotatedRight || isRotatedLeft) {
+            // Rotation collision
+            if (board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#' || board[row + 3][column] == '=' || board[row + 3][column] == '#'
+                    || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#') {
+                return;
+            }
+            board[row][column] = board[row][column + 1] = board[row + 2][column - 1] = ' ';
+            board[row + 1][column + 1] = board[row + 3][column] = board[row + 3][column - 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column + 1] == '=' || board[row + 2][column + 1] == '#' ||
+                    board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = ' ';
+            board[row + 2][column + 1] = board[row + 2][column] = board[row + 3][column + 2] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column + 1] = board[row + 1][column + 2] = ' ';
-        board[row + 2][column + 1] = board[row + 2][column] = board[row + 3][column + 2] = '*';
-        return;
     }
 }
 
@@ -233,22 +360,48 @@ void TetrisGame::moveLeft() {
     }
 
     if (currentPiece == VertLine) {
-        if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' ||
-                board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
+        // Will be a horizontal line
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column + 2] = ' '; 
+            board[row][column - 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' ||
+                    board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
-        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
-        return;
     }
 
     if (currentPiece == HoriLine) {
-        if (board[row][column - 1] == '|' || board[row][column - 1] == '#') {
+        // Will be a vertical line
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column - 1] == '|' || board[row][column - 1] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column + 2] = ' ';
+            board[row][column - 1] = '*';
             return;
         }
-        board[row][column + 2] = ' ';
-        board[row][column - 1] = '*';
-        return;
     }
 
     if (currentPiece == Box) {
@@ -256,47 +409,141 @@ void TetrisGame::moveLeft() {
                 board[row + 1][column - 1] == '#') {
             return;
         }
+        // Will never have rotational logic because shape is never changed
         board[row][column + 1] = board[row + 1][column + 1] = ' ';
         board[row][column - 1] = board[row + 1][column - 1] = '*';
         return;
     }
     
     if (currentPiece == LShape) {
-        if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' ||
-                board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
+        // Left rotation movement
+        if (isRotatedLeft) {
+            // Left rotation collision
+            if () {
+                return;
+            }
+            board[row][column + 2] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
-        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
-        return;
+        // Right rotation movement
+        else if (isRotatedRight) {
+            // Right rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 3] = '*';
+            return;
+        }
+        // Upside down rotation movement
+        else if (isUpsideDown) {
+            // Upside down collision
+            if () {
+                return;
+            }
+            board[row][column + 2] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column - 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' ||
+                    board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
+            return;
+        }
     }
 
     if (currentPiece == LShapeRev) {
-        if (board[row + 2][column - 3] == '|' || board[row + 2][column - 3] == '#') {
+        // Left rotation movement
+        if (isRotatedLeft) {
+            // Left rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
-        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 3] = '*';
-        return;
+        // Right rotation movement
+        else if (isRotatedRight) {
+            // Right rotation collision
+            if () {
+                return;
+            }
+            board[row][column + 2] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column - 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            return;
+        }
+        // Upside down rotation movement
+        else if (isUpsideDown) {
+            // Upside down collision
+            if () {
+                return;
+            }
+            board[row][column + 2] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row + 2][column - 3] == '|' || board[row + 2][column - 3] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 3] = '*';
+            return;
+        }
     }
     
     if (currentPiece == ZigZag) {
-        if (board[row][column - 1] == '|' || board[row][column - 1] == '#' || board[row + 1][column - 3] == '|' || board[row + 1][column - 3] == '#'
-                || board[row + 2][column - 3] == '|' || board[row + 2][column - 3] == '#') {
+        // Will be the same shape on either rotation (movement) 
+        if (isRotatedRight || isRotatedLeft) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 2] = ' ';
+            board[row][column - 1] = board[row + 1][column] = board[row + 2][column] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column - 1] == '|' || board[row][column - 1] == '#' || board[row + 1][column - 3] == '|' || board[row + 1][column - 3] == '#'
+                    || board[row + 2][column - 3] == '|' || board[row + 2][column - 3] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
+            board[row][column - 1] = board[row + 1][column - 3] = board[row + 2][column - 3] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
-        board[row][column - 1] = board[row + 1][column - 3] = board[row + 2][column - 3] = '*';
-        return;
     }
 
     if (currentPiece == ZigZagRev) {
-        if (board[row][column - 1] == '|' || board[row][column - 1] == '#' || board[row + 1][column - 1] == '|' || board[row + 1][column - 1] == '#'
-                || board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '#') {
+        // Will be the same shape on either rotation (movement)
+        if (isRotatedRight || isRotatedLeft) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column + 1] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column - 2] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column - 1] == '|' || board[row][column - 1] == '#' || board[row + 1][column - 1] == '|' || board[row + 1][column - 1] == '#'
+                    || board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column + 1] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
-        board[row][column - 1] = board[row + 1][column - 1] = board[row + 2][column + 1] = '*';
     }
 }
 
@@ -310,71 +557,190 @@ void TetrisGame::moveRight() {
     }
 
     if (currentPiece == VertLine) {
-        if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#'
-                || board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '#') {
+        // Will be a horizontal line
+        if (isRotatedRight || isRotatedLeft) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = ' ';
+            board[row][column + 3] = '*';
+            return;  
+        } else {
+            // Default collision
+            if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#'
+                    || board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
-        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
-        return;
     }
 
     if (currentPiece == HoriLine) {
-        if (board[row][column + 3] == '|' || board[row][column + 3] == '#') {
+        // Will be a vertical line
+        if (isRotatedRight || isRotatedLeft) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column + 3] == '|' || board[row][column + 3] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = ' ';
+            board[row][column + 3] = '*';
             return;
         }
-        board[row][column] = ' ';
-        board[row][column + 3] = '*';
-        return;
     }
 
     if (currentPiece == Box) {
         if (board[row][column + 2] == '|' || board[row][column + 2] == '#' || board[row + 1][column + 2] == '|' || board[row + 1][column + 2] == '#') {
             return;
         }
+        // No rotational logic needed because shape will never change
         board[row][column] = board[row + 1][column] = ' ';
         board[row][column + 2] = board[row + 1][column + 2] = '*';
         return;
     }
     
     if (currentPiece == LShape) {
-        if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
-                board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '#') {
+        // Left rotation movement
+        if (isRotatedLeft) {
+            // Left rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row + 1][column + 1] = board[row + 2][column + 1] = board[row][column + 3] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
-        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 3] = '*';
-        return;
+        // Right rotation movement
+        else if (isRotatedRight) {
+            // Right rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            return;
+        }
+        // Upside down rotation movement
+        else if (isUpsideDown) {
+            // Upside down collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column + 3] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
+                    board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 3] = '*';
+            return;
+        }
     }
 
     if (currentPiece == LShapeRev) {
-        if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
-                board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '#') {
+        // Left rotation movement
+        if (isRotatedLeft) {
+            // Left rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 3] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
-        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
-        return;
+        // Right rotation movement
+        else if (isRotatedRight) {
+            // Right rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
+            board[row][column + 3] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
+            return;
+        }
+        // Upside down rotation movement
+        else if (isUpsideDown) {
+            // Upside down collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
+            board[row + 1][column + 1] = board[row + 2][column + 1] = board[row][column + 3] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
+                    board[row + 2][column + 1] == '|' || board[row + 2][column + 1] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            return;
+        }
     }
     
     if (currentPiece == ZigZag) {
-        if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
-                board[row + 2][column - 1] == '|' || board[row + 2][column - 1] == '#') {
+        // Will be the same shape regardless of rotation (movement)
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column + 1] = board[row + 2][column + 1] = ' ';
+            board[row][column + 2] = board[row + 1][column + 2] = board[row + 2][column + 3] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
+                    board[row + 2][column - 1] == '|' || board[row + 2][column - 1] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
+            board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column - 1] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
-        board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column - 1] = '*';
-        return;
     }
 
     if (currentPiece == ZigZagRev) {
-        if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 3] == '|' || board[row + 1][column + 3] == '#' ||
-                board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '#') {
+        // Will be the same shape regardless of rotation (movement)
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotation collision
+            if () {
+                return;
+            }
+            board[row][column] = board[row + 1][column] = board[row + 2][column - 1] = ' ';
+            board[row][column + 2] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
+            return;
+        } else {
+            // Default collision
+            if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 3] == '|' || board[row + 1][column + 3] == '#' ||
+                    board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '#') {
+                return;
+            }
+            // Default movement
+            board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
+            board[row][column + 1] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
             return;
         }
-        board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
-        board[row][column + 1] = board[row + 1][column + 3] = board[row + 2][column + 3] = '*';
-        return;
     }
 }
 
