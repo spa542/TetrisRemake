@@ -363,7 +363,7 @@ void TetrisGame::moveLeft() {
         // Will be a horizontal line
         if (isRotatedLeft || isRotatedRight) {
             // Rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|') {
                 return;
             }
             board[row][column + 2] = ' '; 
@@ -386,7 +386,8 @@ void TetrisGame::moveLeft() {
         // Will be a vertical line
         if (isRotatedLeft || isRotatedRight) {
             // Rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -419,7 +420,8 @@ void TetrisGame::moveLeft() {
         // Left rotation movement
         if (isRotatedLeft) {
             // Left rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
                 return;
             }
             board[row][column + 2] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -429,7 +431,8 @@ void TetrisGame::moveLeft() {
         // Right rotation movement
         else if (isRotatedRight) {
             // Right rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 2][column - 3] == '#' || board[row + 2][column - 3] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -439,7 +442,8 @@ void TetrisGame::moveLeft() {
         // Upside down rotation movement
         else if (isUpsideDown) {
             // Upside down collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column + 2] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
@@ -462,7 +466,8 @@ void TetrisGame::moveLeft() {
         // Left rotation movement
         if (isRotatedLeft) {
             // Left rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' ||
+                    board[row + 1][column - 1] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column + 2] = ' ';
@@ -472,7 +477,8 @@ void TetrisGame::moveLeft() {
         // Right rotation movement
         else if (isRotatedRight) {
             // Right rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column + 2] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
@@ -482,7 +488,8 @@ void TetrisGame::moveLeft() {
         // Upside down rotation movement
         else if (isUpsideDown) {
             // Upside down collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|') {
                 return;
             }
             board[row][column + 2] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -504,7 +511,8 @@ void TetrisGame::moveLeft() {
         // Will be the same shape on either rotation (movement) 
         if (isRotatedRight || isRotatedLeft) {
             // Rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column] == '#' || board[row + 1][column] == '|'
+                    || board[row + 2][column] == '#' || board[row + 2][column] == '|') {
                 return;
             }
             board[row][column + 1] = board[row + 1][column + 1] = board[row + 2][column + 2] = ' ';
@@ -527,7 +535,8 @@ void TetrisGame::moveLeft() {
         // Will be the same shape on either rotation (movement)
         if (isRotatedRight || isRotatedLeft) {
             // Rotation collision
-            if () {
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 2][column - 2] == '#' || board[row + 2][column - 2] == '|') {
                 return;
             }
             board[row][column + 1] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -560,7 +569,7 @@ void TetrisGame::moveRight() {
         // Will be a horizontal line
         if (isRotatedRight || isRotatedLeft) {
             // Rotation collision
-            if () {
+            if (board[row][column + 3] == '#' || board[row][column + 3] == '|') {
                 return;
             }
             board[row][column] = ' ';
@@ -583,7 +592,8 @@ void TetrisGame::moveRight() {
         // Will be a vertical line
         if (isRotatedRight || isRotatedLeft) {
             // Rotation collision
-            if () {
+            if (board[row][column + 1] == '#' || board[row][column + 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -615,7 +625,8 @@ void TetrisGame::moveRight() {
         // Left rotation movement
         if (isRotatedLeft) {
             // Left rotation collision
-            if () {
+            if (board[row][column + 3] == '#' || board[row][column + 3] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -625,7 +636,8 @@ void TetrisGame::moveRight() {
         // Right rotation movement
         else if (isRotatedRight) {
             // Right rotation collision
-            if () {
+            if (board[row][column + 1] == '#' || board[row][column + 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column - 2] = ' ';
@@ -635,7 +647,8 @@ void TetrisGame::moveRight() {
         // Upside down rotation movement
         else if (isUpsideDown) {
             // Upside down collision
-            if () {
+            if (board[row][column + 3] == '#' || board[row][column + 3] == '|' || board[row + 1][column + 3] == '#' || board[row + 1][column + 3] == '|'
+                    || board[row + 2][column + 3] == '#' || board[row + 2][column + 3] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
@@ -658,7 +671,8 @@ void TetrisGame::moveRight() {
         // Left rotation movement
         if (isRotatedLeft) {
             // Left rotation collision
-            if () {
+            if (board[row][column + 1] == '|' || board[row][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 1][column + 1] == '#' ||
+                    board[row + 2][column + 3] == '|' || board[row + 2][column + 3] == '#') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -668,7 +682,8 @@ void TetrisGame::moveRight() {
         // Right rotation movement
         else if (isRotatedRight) {
             // Right rotation collision
-            if () {
+            if (board[row][column + 3] == '#' || board[row][column + 3] == '|' || board[row + 1][column + 3] == '#' || board[row + 1][column + 3] == '|'
+                    || board[row + 2][column + 3] == '#' || board[row + 2][column + 3] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
@@ -678,7 +693,8 @@ void TetrisGame::moveRight() {
         // Upside down rotation movement
         else if (isUpsideDown) {
             // Upside down collision
-            if () {
+            if (board[row][column + 3] == '#' || board[row][column + 3] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column] = ' ';
@@ -701,7 +717,8 @@ void TetrisGame::moveRight() {
         // Will be the same shape regardless of rotation (movement)
         if (isRotatedLeft || isRotatedRight) {
             // Rotation collision
-            if () {
+            if (board[row][column + 2] == '#' || board[row][column + 2] == '|' || board[row + 1][column + 2] == '#' || board[row + 1][column + 2] == '|'
+                    || board[row + 3][column + 3] == '#' || board[row + 2][column + 3] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column + 1] = board[row + 2][column + 1] = ' ';
@@ -724,7 +741,8 @@ void TetrisGame::moveRight() {
         // Will be the same shape regardless of rotation (movement)
         if (isRotatedLeft || isRotatedRight) {
             // Rotation collision
-            if () {
+            if (board[row][column + 2] == '#' || board[row][column + 2] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|'
+                    || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
                 return;
             }
             board[row][column] = board[row + 1][column] = board[row + 2][column - 1] = ' ';
@@ -755,12 +773,20 @@ void TetrisGame::rotateLeft() {
 
     if (currentPiece == VertLine) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row + 2][column] = ' ';
             board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
             isRotatedLeft = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row - 1][column + 1] == '#' || board[row - 1][column + 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 2] = ' ';
             board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -770,12 +796,20 @@ void TetrisGame::rotateLeft() {
 
     if (currentPiece == HoriLine) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row - 1][column + 1] == '#' || board[row - 1][column + 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 2] = ' ';
             board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
             isRotatedLeft = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row + 2][column] = ' ';
             board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -789,18 +823,30 @@ void TetrisGame::rotateLeft() {
     
     if (currentPiece == LShape) {
         if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            // Collision
+            if (board[row][column + 1] == '#' || board[row][column + 1] == '|' || board[row][column + 2] == '#' || board[row][column + 2] == '|') {
+                return;
+            }
             board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
             board[row][column + 1] = board[row][column + 2] = '*';
             isRotatedLeft = true;
             return;
         }
         if (isRotatedRight) {
+            // Collision
+            if (board[row][column - 2] == '#' || board[row][column - 2] == '|' || board[row + 1][column - 2] == '#' || board[row + 1][column - 2] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = ' ';
             board[row][column - 2] = board[row + 1][column - 2] = '*';
             isRotatedRight = false;
             return;
         }
         if (isRotatedLeft) {
+            // Collision
+            if (board[row + 1][column + 2] == '#' ||  board[row + 1][column + 2] == '|' || board[row + 2][column + 2] == '#' || board[row + 2][column + 2] == '|') {
+                return;
+            }
             board[row + 1][column] = board[row + 2][column] = ' ';
             board[row + 1][column + 2] = board[row + 2][column + 2] = '*';
             isUpsideDown = true;
@@ -808,6 +854,10 @@ void TetrisGame::rotateLeft() {
             return;
         }
         if (isUpsideDown) {
+            // Collision
+            if (board[row + 1][column] == '#' || board[row + 1][column] == '|' || board[row + 2][column] == '#' || board[row + 2][column] == '|') {
+                return;
+            }
             board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
             board[row + 1][column] = board[row + 2][column] = '*';
             isUpsideDown = false;
@@ -818,12 +868,20 @@ void TetrisGame::rotateLeft() {
 
     if (currentPiece == LShapeRev) {
         if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            // Collision 
+            if (board[row][column - 2] == '#' || board[row][column - 2] == '|' || board[row + 1][column - 2] == '#' || board[row + 1][column - 2] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = ' ';
             board[row][column - 2] = board[row + 1][column - 2] = '*';
             isRotatedLeft = true;
             return;
         }
         if (isRotatedLeft) {
+            // Collision
+            if (board[row][column + 1] == '#' || board[row][column + 1] == '|' || board[row][column + 2] == '#' || board[row][column + 2] == '|') {
+                return;
+            }
             board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
             board[row][column + 1] = board[row][column + 2] = '*';
             isUpsideDown = true;
@@ -831,12 +889,20 @@ void TetrisGame::rotateLeft() {
             return;
         }
         if (isRotatedRight) {
+            // Collision
+            if (board[row + 2][column] == '#' || board[row + 2][column] == '|' || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 1] = ' ';
             board[row + 2][column] = board[row + 2][column + 1] = '*';
             isRotatedRight = false;
             return;
         }
         if (isUpsideDown) {
+            // Collision
+            if (board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|' || board[row + 2][column + 2] == '#' || board[row + 2][column + 2] == '|') {
+                return;
+            }
             board[row][column + 1] = board[row][column + 2] = ' ';
             board[row + 2][column + 1] = board[row + 2][column + 2] = '*';
             isUpsideDown = false;
@@ -847,12 +913,22 @@ void TetrisGame::rotateLeft() {
     
     if (currentPiece == ZigZag) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row + 2][column] == '#' || board[row + 2][column] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|'
+                    || board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row][column - 2] == '#' || board[row][column - 2] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
             board[row + 2][column] = board[row + 2][column - 1] = board[row][column - 1] = board[row][column - 2] = '*';
             isRotatedLeft = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row][column + 2] == '#' || board[row][column + 2] == '|' || board[row + 1][column + 2] == '#' || board[row + 1][column + 2] == '|'
+                    || board[row + 1][column] == '#' || board[row + 1][column] == '|' || board[row + 2][column] == '#' || board[row + 2][column] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 1] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
             board[row][column + 2] = board[row + 1][column + 2] = board[row + 1][column] = board[row + 2][column] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -862,12 +938,22 @@ void TetrisGame::rotateLeft() {
 
     if (currentPiece == ZigZagRev) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row][column + 1] == '#' || board[row][column + 1] == '|' || board[row][column + 2] == '#' || board[row][column + 2] == '|'
+                    || board[row + 2][column] == '#' || board[row + 2][column] == '|' || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
             board[row][column + 1] = board[row][column + 2] = board[row + 2][column] = board[row + 2][column + 1] = '*';
             isRotatedLeft = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 1] = board[row + 2][column] = board[row + 2][column - 1] = ' ';
             board[row][column - 1] = board[row + 1][column - 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -887,12 +973,20 @@ void TetrisGame::rotateRight() {
 
     if (currentPiece == VertLine) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row + 1][column - 1] == '#' ||  board[row + 1][column - 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row + 2][column] = ' ';
             board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
             isRotatedRight = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row - 1][column + 1] == '#' || board[row - 1][column + 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 2] = ' ';
             board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -902,12 +996,20 @@ void TetrisGame::rotateRight() {
 
     if (currentPiece == HoriLine) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row - 1][column + 1] == '#' || board[row - 1][column + 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 2] = ' ';
             board[row - 1][column + 1] = board[row + 1][column + 1] = '*';
             isRotatedRight = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|' || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row + 2][column] = ' ';
             board[row + 1][column - 1] = board[row + 1][column + 1] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -921,12 +1023,20 @@ void TetrisGame::rotateRight() {
     
     if (currentPiece == LShape) {
         if (!isRotatedRight && !isRotatedLeft && !isUpsideDown) {
+            // Collision
+            if (board[row][column + 2] == '#' || board[row][column + 2] == '|' || board[row + 1][column + 2] == '#' || board[row + 1][column + 2] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = ' ';
             board[row][column + 2] = board[row + 1][column + 2] = '*';
             isRotatedRight = true;
             return;
         }
         if (isRotatedRight) {
+            // Collision
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row][column - 2] == '#' || board[row][column - 2] == '|') {
+                return;
+            }
             board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
             board[row][column - 1] = board[row][column - 2] = '*';
             isRotatedRight = false;
@@ -934,12 +1044,20 @@ void TetrisGame::rotateRight() {
             return;
         }
         if (isRotatedLeft) {
+            // Collision
+            if (board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|' || board[row + 2][column + 2] == '#' || board[row + 2][column + 2] == '|') {
+                return;
+            }
             board[row][column + 1] = board[row][column + 2] = ' ';
             board[row + 2][column + 1] = board[row + 2][column + 2] = '*';
             isRotatedLeft = false;
             return;
         }
         if (isUpsideDown) {
+            // Collision
+            if (board[row + 2][column] == '#' || board[row + 2][column] == '|' || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 1] = ' ';
             board[row + 2][column] = board[row + 2][column + 1] = '*';
             isUpsideDown = false;
@@ -950,12 +1068,20 @@ void TetrisGame::rotateRight() {
 
     if (currentPiece == LShapeRev) {
         if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            // Collision
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row][column - 2] == '#' || board[row][column - 2] == '|') {
+                return;
+            }
             board[row + 2][column - 1] = board[row + 2][column - 2] = ' ';
             board[row][column - 1] = board[row][column - 2] = '*';
             isRotatedRight = true;
             return;
         }
         if (isRotatedRight) {
+            // Collision
+            if (board[row + 1][column] == '#' || board[row + 1][column] == '|' || board[row + 2][column] == '#' || board[row + 2][column] == '|') {
+                return;
+            }
             board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
             board[row + 1][column] = board[row + 2][column] = '*';
             isUpsideDown = true;
@@ -963,12 +1089,20 @@ void TetrisGame::rotateRight() {
             return;
         }
         if (isRotatedLeft) {
+            // Collision
+            if (board[row][column + 2] == '#' || board[row][column + 2] == '|' || board[row + 1][column + 2] == '#' || board[row + 1][column + 2] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = ' ';
             board[row][column + 2] = board[row + 1][column + 2] = '*';
             isRotatedLeft = false;
             return;
         }
         if (isUpsideDown) {
+            // Collision
+            if (board[row + 1][column + 2] == '#' || board[row + 1][column + 2] == '|' || board[row + 2][column + 2] == '#' || board[row + 2][column + 2] == '|') {
+                return;
+            }
             board[row + 1][column] = board[row + 2][column] = ' ';
             board[row + 1][column + 2] = board[row + 2][column + 2] = '*';
             isUpsideDown = false;
@@ -979,12 +1113,22 @@ void TetrisGame::rotateRight() {
     
     if (currentPiece == ZigZag) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row + 2][column] == '#' || board[row + 2][column] == '|' || board[row + 2][column - 1] == '#' || board[row + 2][column - 1] == '|'
+                    || board[row][column - 1] == '#' ||  board[row][column - 1] == '|' || board[row][column - 2] == '#' || board[row][column - 2] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = board[row + 1][column - 2] = board[row + 2][column - 2] = ' ';
             board[row + 2][column] = board[row + 2][column - 1] = board[row][column - 1] = board[row][column - 2] = '*';
             isRotatedRight = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row][column + 2] == '#' || board[row][column + 2] == '|' || board[row + 1][column + 2] == '#' || board[row + 1][column + 2] == '|'
+                    || board[row + 1][column] == '#' || board[row + 1][column] == '|' || board[row + 2][column] == '#' || board[row + 2][column] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 1] = board[row + 2][column + 1] = board[row + 2][column + 2] = ' ';
             board[row][column + 2] = board[row + 1][column + 2] = board[row + 1][column] = board[row + 2][column] = '*';
             isRotatedLeft = isRotatedRight = false;
@@ -994,12 +1138,22 @@ void TetrisGame::rotateRight() {
 
     if (currentPiece == ZigZagRev) {
         if (!isRotatedLeft && !isRotatedRight) {
+            // Collision
+            if (board[row][column + 1] == '#' || board[row][column + 1] == '|' || board[row][column + 2] == '#' || board[row][column + 2] == '|'
+                    || board[row + 2][column] == '#' || board[row + 2][column] == '|' || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row + 1][column] = board[row + 1][column + 2] = board[row + 2][column + 2] = ' ';
             board[row][column + 1] = board[row][column + 2] = board[row + 2][column] = board[row + 2][column + 1] = '*';
             isRotatedRight = true;
             return;
         }
         if (isRotatedLeft || isRotatedRight) {
+            // Collision
+            if (board[row][column - 1] == '#' || board[row][column - 1] == '|' || board[row + 1][column - 1] == '#' || board[row + 1][column - 1] == '|'
+                    || board[row + 1][column + 1] == '#' || board[row + 1][column + 1] == '|' || board[row + 2][column + 1] == '#' || board[row + 2][column + 1] == '|') {
+                return;
+            }
             board[row][column] = board[row][column + 1] = board[row + 2][column] = board[row + 2][column - 1] = ' ';
             board[row][column - 1] = board[row + 1][column - 1] = board[row + 1][column + 1] = board[row + 2][column + 1] = '*';
             isRotatedLeft = isRotatedRight = false;

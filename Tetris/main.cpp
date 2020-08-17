@@ -38,7 +38,6 @@ int main() {
 
         switch(ch) {
             case 's':
-                printw("Pressed the s key\n");
                 game.fall();
                 if (game.isPieceSet()) {
                     game.convertSetPieces();
@@ -50,7 +49,6 @@ int main() {
                 }
                 break;
             case 'd':
-                printw("Pressed the d key\n");
                 game.moveRight();
                 if (game.isPieceSet()) {
                     game.convertSetPieces();
@@ -62,7 +60,6 @@ int main() {
                 }
                 break;
             case 'a':
-                printw("Pressed the a key\n");
                 game.moveLeft();
                 if (game.isPieceSet()) { 
                     game.convertSetPieces();
@@ -78,9 +75,25 @@ int main() {
                 break;
             case 'z':
                 game.rotateLeft();
+                if (game.isPieceSet()) { 
+                    game.convertSetPieces();
+                    RowData stuff = game.fullRows();
+                    if (stuff.isRowFull) {
+                        game.clearRows(stuff.fullRows);
+                    }
+                    game.generatePiece();
+                }
                 break;
             case 'x':
                 game.rotateRight();
+                if (game.isPieceSet()) { 
+                    game.convertSetPieces();
+                    RowData stuff = game.fullRows();
+                    if (stuff.isRowFull) {
+                        game.clearRows(stuff.fullRows);
+                    }
+                    game.generatePiece();
+                }
                 break;
         }
         if ( ch == 'e' ) {
