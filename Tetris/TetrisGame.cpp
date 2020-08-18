@@ -3,6 +3,7 @@
 TetrisGame::TetrisGame() {
     currentPiece = -1; // No current piece when game board is created
     isRotatedLeft = isRotatedRight = isUpsideDown = false; // Starts in normal position
+    score = 0;
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 40; j++) {
            if (j == 0 || j == 39) {
@@ -36,6 +37,9 @@ void TetrisGame::printBoard() {
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 40; j++) {
             printw("%c", board[i][j]);     
+        }
+        if (i == 3) {
+            printw("\tScore: %d", score);
         }
         printw("\n");
     }
@@ -1172,21 +1176,39 @@ bool TetrisGame::isPieceSet() {
     }
 
     if (currentPiece == VertLine) {
-        if (board[row + 3][column] == '=' || board[row + 3][column] == '#') {
-            return true;
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotated set
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return true;
+            }
+        } else {
+            // Default set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#') {
+                return true;
+            }
         }
         return false;
     }
 
     if (currentPiece == HoriLine) {
-        if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#' ||
-                board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
-            return true;
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotated set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#') {
+                return true;
+            }
+        } else {
+            // Default set 
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#' ||
+                    board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return true;
+            }
         }
         return false;
     }
 
     if (currentPiece == Box) {
+        // Default set
         if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column + 1] == '=' || board[row + 2][column + 1] == '#') {
             return true;
         }
@@ -1194,33 +1216,93 @@ bool TetrisGame::isPieceSet() {
     }
     
     if (currentPiece == LShape) {
-        if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#' ||
-                board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
-            return true;
+        if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            // Default set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#' ||
+                    board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return true;
+            }
+        } else if (isRotatedLeft) {
+            // Left rotated set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return true;
+            }
+        } else if (isRotatedRight) {
+            // Right rotated set
+            if (board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#' || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#'
+                    || board[row + 3][column] == '=' || board[row + 3][column] == '#') {
+                return true;    
+            }
+        } else if (isUpsideDown) {
+            // Upside down set
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return true;
+            }
         }
         return false;
     }
 
     if (currentPiece == LShapeRev) {
-        if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#' ||
-                board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
-            return true;
+        if (!isRotatedLeft && !isRotatedRight && !isUpsideDown) {
+            // Default set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#' ||
+                    board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+                return true;
+            }
+        } else if (isRotatedLeft) {
+            // Left rotated set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#' ||
+                    board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return true;
+            }
+        } else if (isRotatedRight) {
+            // Right rotated set
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return true;
+            }
+        } else if (isUpsideDown) {
+            // Upside down set
+            if (board[row + 3][column] == '=' || board[row + 3][column] == '#' || board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#'
+                    || board[row + 1][column + 2] == '=' || board[row + 1][column + 2] == '#') {
+                return true;
+            }
         }
         return false;
     }
     
     if (currentPiece == ZigZag) {
-        if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column - 1] == '=' || board[row + 2][column - 1] == '#' ||
-                board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
-            return true;
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotated set
+            if (board[row + 1][column] == '=' || board[row + 1][column] == '#' || board[row + 3][column + 1] == '=' || board[row + 3][column + 1] == '#'
+                    || board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return true;
+            }
+        } else {
+            // Default set
+            if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column - 1] == '=' || board[row + 2][column - 1] == '#' ||
+                    board[row + 3][column - 2] == '=' || board[row + 3][column - 2] == '#') {
+                return true;
+            }
         }
         return false;
     }
 
     if (currentPiece == ZigZagRev) {
-        if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column + 1] == '=' || board[row + 2][column + 1] == '#' ||
-                board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
-            return true;
+        if (isRotatedLeft || isRotatedRight) {
+            // Rotated set
+            if (board[row + 1][column + 1] == '=' || board[row + 1][column + 1] == '#' || board[row + 3][column] == '=' || board[row + 3][column] == '#'
+                    || board[row + 3][column - 1] == '=' || board[row + 3][column - 1] == '#') {
+                return true;
+            }
+        } else {
+            // Default set
+            if (board[row + 2][column] == '=' || board[row + 2][column] == '#' || board[row + 2][column + 1] == '=' || board[row + 2][column + 1] == '#' ||
+                    board[row + 3][column + 2] == '=' || board[row + 3][column + 2] == '#') {
+                return true;
+            }
         }
         return false;
     }
@@ -1239,29 +1321,31 @@ void TetrisGame::convertSetPieces() {
 
 RowData TetrisGame::fullRows() {
     RowData stuff;
-    bool isFull = false;
+    bool isFull = true;
     for (int i = 0; i < 39; i++) {
         for (int j = 1; j < 39; j++) {
             if (board[i][j] != '#') {
                 isFull = false;
                 break;
             }
-            isFull = true;
         }
         if (isFull) {
             stuff.fullRows.push_back(i);
-            isFull = false;
+            stuff.isRowFull = true;
         }
+        isFull = true;
     }
     return stuff;
 }
 
 void TetrisGame::clearRows(std::vector<int> rowsToDel) {
     for (std::vector<int>::iterator i = rowsToDel.begin(); i != rowsToDel.end(); ++i) {
+        score++;
         for (int j = 1; j < 39; j++) {
             board[*i][j] = ' ';
         }
-        for (int above = --(*i), curr = *i; above >= 0; above--, curr--) {
+        int rowVal = *i;
+        for (int above = rowVal - 1, curr = rowVal; above >= 0; above--, curr--) {
             for (int col = 1; col < 39; col++) {
                 board[curr][col] = board[above][col];
             }

@@ -71,7 +71,6 @@ int main() {
                 }
                 break;
             case 'e': 
-                printw("Pressed the e key, exiting the loop\n");
                 break;
             case 'z':
                 game.rotateLeft();
@@ -102,7 +101,6 @@ int main() {
         clear();
         refresh();
     }
-    getch();
     endwin();
     return 0;
 }

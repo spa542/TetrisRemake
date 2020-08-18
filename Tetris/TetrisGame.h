@@ -21,6 +21,7 @@ class TetrisGame {
         bool isRotatedLeft; // To know if the shape is rotated left
         bool isRotatedRight; // To know if the shape is rotated right
         bool isUpsideDown; // To know if the shape is upside down
+        int score;
 
         int findRow(); // Finds the star of the current moving block
         int findColumn(int); // Uses the row to find the column of the first block
