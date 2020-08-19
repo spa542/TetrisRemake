@@ -38,8 +38,11 @@ void TetrisGame::printBoard() {
         for (int j = 0; j < 40; j++) {
             printw("%c", board[i][j]);     
         }
-        if (i == 3) {
+        if (i == 2) {
             printw("\tScore: %d", score);
+        }
+        if (i == 4) {
+            printw("<- Don't pass here :)");
         }
         printw("\n");
     }
@@ -1351,4 +1354,21 @@ void TetrisGame::clearRows(std::vector<int> rowsToDel) {
             }
         }
     }
+}
+
+bool TetrisGame::isMaxColumnLoss() {
+    for (int j = 1; j < 39; j++) {
+        if (board[4][j] == '#') {
+            return true;
+        }
+    }
+    return false;
+}
+
+void TetrisGame::lost() {
+    printw("\tGAME OVER!\n\n");
+    printw("Sorry for your loss...\n");
+    printw("Here was your score: %d\n", score);
+    printw("Better luck next time!\n");
+    printw("\n\nPress any key to exit\n");
 }

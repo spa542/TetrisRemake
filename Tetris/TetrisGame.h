@@ -40,6 +40,8 @@ class TetrisGame {
         void convertSetPieces(); // Converts set pieces into # signs
         RowData fullRows(); // Checks to see if the row is full or not
         void clearRows(std::vector<int>); // Clears the rows by specified number in the vector
+        bool isMaxColumnLoss(); // Checks to see if 'tower' reaches specified level on game map
+        void lost(); // Game lost screen
 };
 
 #endif
