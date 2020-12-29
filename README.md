@@ -10,7 +10,7 @@ enjoy!
 * main - This is the executable that should be a result
 <br /> <br />
 ## Makefile Instructions:
-Type "make" without the quotes and the program will compile everything for you. Then proceed with useing ./main in order to run the program.
+Type "make" without the quotes and the program will compile everything for you. Then proceed with using ./main in order to run the program.
 <br /> <br />
 ## Instructions for Program:
 Follow the Makefile instructions above to run the program without any manual work. If not using Makefile, then you must compile the .cpp files into .o files. (g++ -c main.cpp)
